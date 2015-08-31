@@ -1,0 +1,1 @@
+{"virtualbox":{"/vagrant":{"guestpath":"/vagrant","hostpath":"C:/Ambiente/servers/informadus","disabled":false},"/tmp/vagrant-puppet/manifests-a11d1078b1b1f2e3bdea27312f6ba513":{"owner":"root","nfs__quiet":true,"guestpath":"/tmp/vagrant-puppet/manifests-a11d1078b1b1f2e3bdea27312f6ba513","hostpath":"C:/Ambiente/servers/informadus/manifests","disabled":false}}}

@@ -1,0 +1,8 @@
+exec {"update Apache Server":
+	command => "/bin/yum update -y httpd"
+}
+
+package {"httpd":
+	ensure => installed,
+	require => Exec["update Apache Server"]
+}

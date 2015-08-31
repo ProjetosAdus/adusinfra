@@ -1,0 +1,25 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANT_FILE_VERSION = 2
+
+Vagrant.configure(VAGRANT_FILE_VERSION) do |config|
+  
+  #config.vm.hostname = "puppetserver4.hacklab"
+  config.vm.box = "puppetlabs/centos-7.0-64-puppet-enterprise"
+  config.vm.network "public_network"
+
+  config.vm.define :web do |web_config|
+  	web_config.vm.hostname = "informadusview.informadus"	
+  	web_config.vm.network "private_network", ip: "192.168.33.10"
+
+	web_config.ssh.username = 'root'
+	web_config.ssh.password = 'puppet'
+	web_config.ssh.insert_key = 'true'
+
+	web_config.vm.provision "puppet" do |puppet|
+		puppet.manifest_file = "web.pp"
+	end
+  end
+
+end
