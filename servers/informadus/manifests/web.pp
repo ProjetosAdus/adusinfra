@@ -14,3 +14,7 @@ service {"httpd":
 	hasrestart => true,
 	require => Package["httpd"]
 }
+
+package {"iptables":
+	ensure => "purged"
+}
