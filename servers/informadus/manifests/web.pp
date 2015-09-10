@@ -40,3 +40,10 @@ file{"/etc/sysconfig/proftpd":
 	content => "PROFTPD_OPTIONS='-DANONYMOUS_FTP'",
 	require => Package["proftpd"]
 }
+
+file{"/etc/httpd/conf/httpd.conf":
+	ensure => file,
+	content => template("/vagrant/templates/httpd.conf"),
+	require => File["/etc/sysconfig/proftpd"],
+	notify => Service["httpd"]
+}
