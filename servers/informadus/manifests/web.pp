@@ -47,3 +47,8 @@ file{"/etc/httpd/conf/httpd.conf":
 	require => File["/etc/sysconfig/proftpd"],
 	notify => Service["httpd"]
 }
+
+exec{"grant all httpd":
+	command => "/usr/bin/chmod 777 /var/ftp/uploads",
+	require => Package["proftpd"]
+}	

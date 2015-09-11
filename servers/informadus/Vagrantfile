@@ -6,12 +6,6 @@ VAGRANT_FILE_VERSION = 2
 Vagrant.configure(VAGRANT_FILE_VERSION) do |config|
    
   config.vm.box = "puppetlabs/centos-7.0-64-puppet-enterprise"
- 
-  #config.vm.provision :puppet do |puppet|
-    # puppet.options = ["--templatedir","templates"] 
-  #end
-  
-  #config.vm.synced_folder "templates", "/tmp/vagrant-puppet/templates", "templates"
   config.vm.synced_folder 'templates', '/vagrant/templates', type: 'nfs'
 
   config.vm.define :web do |web_config|
