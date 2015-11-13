@@ -4,21 +4,38 @@
 VAGRANT_FILE_VERSION = 2
 
 Vagrant.configure(VAGRANT_FILE_VERSION) do |config|
-  
-  #config.vm.hostname = "puppetserver4.hacklab"
+   
   config.vm.box = "puppetlabs/centos-7.0-64-puppet-enterprise"
+  config.vm.synced_folder 'templates', '/vagrant/templates', type: 'nfs'
 
   config.vm.define :web do |web_config|
   	web_config.vm.hostname = "informadusview.informadus"	
-  	web_config.vm.network "private_network", ip: "192.168.33.10"
-
+  	web_config.vm.network :private_network, ip: "192.168.33.30"
+	
 	web_config.ssh.username = 'root'
 	web_config.ssh.password = 'puppet'
 	web_config.ssh.insert_key = 'true'
 
 	web_config.vm.provision "puppet" do |puppet|
 		puppet.manifest_file = "web.pp"
+		puppet.options = ["--templatedir","/tmp/vagrant-puppet/templates"]
 	end
   end
+  
+  config.vm.define :db do |db_config|
+  	db_config.vm.hostname = "informadusdb.informadus"	
+  	db_config.vm.network :private_network, ip: "192.168.34.40"
+	
+	db_config.ssh.username = 'root'
+	db_config.ssh.password = 'puppet'
+	db_config.ssh.insert_key = 'true'
+
+	db_config.vm.provision "puppet" do |puppet|
+		puppet.manifest_file = "db.pp"
+		puppet.options = ["--templatedir","/tmp/vagrant-puppet/templates"]
+	end
+  end
+
+  config.vm.network "public_network"
 
 end
