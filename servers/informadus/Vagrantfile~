@@ -24,10 +24,11 @@ Vagrant.configure(VAGRANT_FILE_VERSION) do |config|
   
   config.vm.define :db do |db_config|
   	db_config.vm.hostname = "informadusdb.informadus"	
-  	db_config.vm.network :private_network, ip: "192.168.34.40"
+  	db_config.vm.network :private_network, ip: "192.168.33.40"
 	
 	db_config.ssh.username = 'root'
 	db_config.ssh.password = 'puppet'
+	db_config.ssh.host = '192.168.33.40'
 	db_config.ssh.insert_key = 'true'
 
 	db_config.vm.provision "puppet" do |puppet|

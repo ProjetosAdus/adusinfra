@@ -24,7 +24,40 @@ file{"/etc/hosts":
 	content => "192.168.33.40 informadusdb.informadus"
 }
 
+package {"postgresql-server":
+	ensure => latest,
+	require => File["/etc/hosts"]
+}
+
+exec {"initdb":
+	command => "/usr/bin/initdb -D /var/lib/pgsql/data",
+	user => "postgres",
+	require => Package["postgresql-server"]
+}
+
+service{"postgresql":
+	ensure => running,
+	enable => true,
+	hasstatus => true,
+	hasrestart => true,
+	require => File["/var/lib/pgsql/data/postgresql.conf"]
+}
+
 file{"/etc/sysconfig/proftpd":
 	content => "PROFTPD_OPTIONS='-DANONYMOUS_FTP'",
 	require => Package["proftpd"]
 }
+
+file{"/var/lib/pgsql/data/postgresql.conf":
+	ensure => file,
+	content => template("/vagrant/templates/postgresql.conf"),
+	require => File["/var/lib/pgsql/data/pg_hba.conf"]
+}
+
+file{"/var/lib/pgsql/data/pg_hba.conf":
+	ensure => file,
+	content => template("/vagrant/templates/pg_hba.conf"),
+	require => Exec["initdb"]
+}
+
+
